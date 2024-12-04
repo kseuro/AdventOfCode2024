@@ -2,7 +2,6 @@ from pathlib import Path
 
 alias MIN_DIFF = 1
 alias MAX_DIFF = 3
-alias MAX_FAULTS = 4
 
 
 def load_data(filename: String) -> List[String]:
@@ -83,7 +82,6 @@ def solve_part2(filename: String) -> Int:
         if check_safety(levels_arr):
             n_safe += 1
         else:  # Implement problem dampener
-            var faults = 0
             for i in range(len(levels_arr)):
                 if i == 0:  # zeroeth element cannot contribute to problem?
                     temp_arr = levels_arr[i + 1 :]
@@ -91,10 +89,9 @@ def solve_part2(filename: String) -> Int:
                     temp_arr = levels_arr[:i] + levels_arr[i + 1 :]
                 else:  # remove the last element
                     temp_arr = levels_arr[:-1]
-                if not check_safety(temp_arr):
-                    faults += 1
-            if faults <= MAX_FAULTS:
-                n_safe += 1
+                if check_safety(temp_arr):
+                    n_safe += 1
+                    break
 
     return n_safe
 
